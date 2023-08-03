@@ -1,0 +1,7 @@
+%b means that Bill is a liar.
+%k means that Kim is a liar.
+b v ~b.
+k v ~k.
+~b v ~k :- b.
+k :- ~b.
+b :- ~b.

@@ -1,0 +1,42 @@
+% There exist four people.
+person(jack).
+person(jean).
+person(lucy).
+person(paul).
+
+% Every person has either a grade of A, B, C, or D.
+% If X is a person, then X has a grade of A, B, C, or D.
+hasA(X) v hasB(X) v hasC(X) v hasD(X) :- person(X).
+
+% Two different people cannot both have the same grade.
+% (encoded as a constraint)
+% e.g. If X has a grade of A, and Y has agrade of A, and X != Y, then INCONSISTENT
+:- hasA(X),hasA(Y),X!=Y.
+:- hasB(X),hasB(Y),X!=Y.
+:- hasC(X),hasC(Y),X!=Y.
+:- hasD(X),hasD(Y),X!=Y.
+
+hasD(lucy) :- hasA(jack).
+hasD(jack) :- hasC(lucy).
+
+% Let’s make a “bettergrade(X,Y)” predicate “X has a better grade than Y”.
+% "bettergrade" is transitive.
+bettergrade(X,Z) :- bettergrade(X,Y), bettergrade(Y,Z).
+% "bettergrade" is non-symmetric (encoded as a constraint)
+:- bettergrade(X,Y),bettergrade(Y,X), X!=Y.
+% "bettergrade" is non-reflexive. (encoded as a constraint)
+:- bettergrade(X,X).
+
+bettergrade(jack, paul).
+hasA(jack) v hasB(jack) v hasC(jack) :- hasD(paul).
+hasA(jack) v hasB(jack) :- hasC(paul).
+hasA(jack) :- hasB(paul).
+
+hasD(paul):- hasC(jack).
+hasD(paul) v hasC(paul) :- hasB(jack).
+hasD(paul) v hasC(paul) v hasB(paul) :- hasA(jack).
+
+hasC(jack) :- not hasA(jean).
+~hasD(paul) :- hasB(lucy).
+hasB(paul) :- hasA(lucy).
+~hasB(paul) :- ~hasB(jean).

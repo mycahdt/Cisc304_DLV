@@ -1,0 +1,28 @@
+% (a) What are the names of states that border Delaware?
+parta(X) :- borders(X, "delaware").
+
+% (b) What rivers travel through both Pennsylvania and at least one adjacent states?
+partb(X) :- riverin(X, "pennsylvania"), borders(Y, "pennsylvania").
+
+% (c) Which rivers run through at least three different states?
+partc(X) :- riverin(X, A), riverin(X, B), riverin(X, C), A!=B, A!=C, B!=C.
+
+% (d) Which single road should I take to get from from Delaware to Florida?
+
+%create roadConnected predicate
+roadConnected(X,A,B) :- road(X,A), road(X,B), borders(A,B), borders(B,A).
+% "roadConnected" is transitive.
+roadConnected(X,A,C) :- roadConnected(X,A,B), roadConnected(X,B,C).
+
+partd(X) :- roadConnected(X, "delaware", "florida").
+
+
+% (e) What is the largest lake?
+
+%create smallerLake predicate
+% A lake could either be smaller than another lake or not be smaller than another lake
+smallerLake(X,A) v ~smallerLake(X,A) :- lake(X,A).
+% a smaller lake 
+smallerLake(X,A) :- lake(X,A), lake(Y,B), A<B, X!=Y.
+
+parte(X) :- ~smallerLake(X,A).

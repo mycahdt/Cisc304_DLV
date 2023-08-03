@@ -1,0 +1,106 @@
+#maxint = 2011.
+
+% There exists 5 heroes
+hero(criminalbane).
+hero(deepshadow).
+hero(prismshield).
+hero(ultrahex).
+hero(wonderman).
+
+Solution(H, N, B, Y) :- hero(H), name(H,N), hood(H,B), year(H,Y).
+
+% Every hero has a name - billy or gale or matt or orel or red
+name(X, billy) v name(X, gale) v name(X, matt) v name(X, orel) v name(X, red) :- hero(X).
+
+% Every hero has a year they started - 2007 or 2008 or 2009 or 2010 or 2011
+year(X, 2007) v year(X, 2008) v year(X, 2009) v year(X, 2010) v year(X, 2011) :- hero(X).
+
+% Every hero has a neighborhood they patrol - appleValley or greenHills or libertyville or missionVale or summerland
+hood(X, applevalley) v hood(X, greenhills) v hood(X, libertyville) v hood(X, missionvale) v hood(X, summerland) :- hero(X).
+
+% Two different heroes cannot have the same name
+% (encoded as a constraint)
+% e.g. If hero X name is billy, and hero Y name is billy, and X != Y, then INCONSISTENT
+:- name(X, billy), name(Y, billy), X!=Y.
+:- name(X, gale), name(Y, gale), X!=Y.
+:- name(X, matt), name(Y, matt), X!=Y.
+:- name(X, orel), name(Y, orel), X!=Y.
+:- name(X, red), name(Y, red), X!=Y.
+%:- name(X, N), name(Z, N), X!=Z.
+
+% Two different heroes cannot have the same year
+% (encoded as a constraint)
+% e.g. If hero X year is 2007, and hero Y year is 2007, and X != Y, then INCONSISTENT
+:- year(X, 2007), year(Y, 2007), X!=Y.
+:- year(X, 2008), year(Y, 2008), X!=Y.
+:- year(X, 2009), year(Y, 2009), X!=Y.
+:- year(X, 2010), year(Y, 2010), X!=Y.
+:- year(X, 2011), year(Y, 2011), X!=Y.
+%:- year(X, Y), year(Z, Y), X!=Z.
+
+% Two different heroes cannot have the same hood
+% (encoded as a constraint)
+% e.g. If hero X hood is appleValley, and hero Y hood is appleValley, and X != Y, then INCONSISTENT
+:- hood(X, applevalley), hood(Y, applevalley), X!=Y.
+:- hood(X, greenhills), hood(Y, greenhills), X!=Y.
+:- hood(X, libertyville), hood(Y, libertyville), X!=Y.
+:- hood(X, missionvale), hood(Y, missionvale), X!=Y.
+%:- hood(X, summerland), hood(Y, summerland), X!=Y.
+:- hood(X, Y), hood(Z, Y), X!=Z.
+
+
+% a.) The superhero who started in 2011 patrols Apple Valley.
+hood(X, applevalley) :- year(X, 2011).
+year(X, 2011) :- hood(X, applevalley).
+
+
+% b.) The hero who patrols Summerland isn't Red Reilly.
+name(X, billy) v name(X, gale) v name(X, matt) v name(X, orel) :- hood(X, summerland).
+:- name(X, red), hood(X, summerland).
+
+
+% c.) The person who patrols Summerland is either "Deep Shadow" or Orel Osborne.
+hood(deepshadow, summerland) v name(X, orel) :- hood(X, summerland).
+
+% d.) The hero who patrols Mission Vale began 2 years after Gale Grant.
+year(X, Y) :- hood(X, missionvale), name(A, gale), year(A, Z), Y=Z+2.
+:- year(X, 2010), name(X, gale). 
+:- year(X, 2011), name(X, gale).
+year(X, 2007) v year(X, 2008) v year(X, 2009) :- name(X, gale).
+
+
+% e.) Of the person who patrols Green Hills and Red Reilly, one began his crusade in 2007 and the other is "Deep Shadow".
+%~hero(deepshadow) :- hood(X, greenhills), year(X, 2007).
+%~hero(deepshadow) :- name(X, red), year(X, 2007).
+%~year(X, 2007) :- hood(X, greenhills), hero(deepshadow).
+%~year(X, 2007) :- name(X, red), hero(deepshadow).
+
+name(X, billy) v name(X, gale) v name(X, matt) v name(X, orel) :- hood(X, greenhills).
+hood(X, greenhills) :- name(X, billy), name(X, gale), name(X, matt), name(X, orel).
+:- hood(X, greenhills), name(X, red).
+~year(deepshadow, 2007).
+
+hood(deepshadow, greenhills) v name(deepshadow, red).
+hood(X, greenhills) v name(X, red) :- year(X, 2007).
+
+
+% f.) The person who started in 2011 isn't Red Reilly.
+name(X, billy) v name(X, gale) v name(X, matt) v name(X, orel) :- year(X, 2011).
+:- year(X, 2011), name(X, red).
+
+
+% g.) "Prism Shield" patrols Libertyville.
+hood(prismshield, libertyville).
+
+% h.) Billy Brewer is either the person who started in 2008 or "Wonderman".
+year(X, 2008) v name(wonderman, billy) :- name(X, billy).
+
+% i.) The hero who patrols Summerland began 2 years after "Ultra Hex".
+year(X, Y) :- hood(X, summerland), year(ultrahex, Z), Y=Z+2.
+:- year(ultrahex, 2010). 
+:- year(ultrahex, 2011).
+
+
+
+% Solution(H, N, B, Y) :- hero(H), name(H,N), hood(H,B), year(H,Y).
+

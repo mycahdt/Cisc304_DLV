@@ -1,0 +1,41 @@
+% There exist three people.
+person(brown).
+person(jones).
+person(smith).
+
+% Every person is either a cashier, manager, or teller.
+% If X is a person, then X is either a cashier, manager, or teller.
+cashier(X) v manager(X) v teller (X) :- person(X).
+
+% Two different people cannot both have the same job.
+% (encoded as a constraint)
+% e.g. If X is cashier, and Y is cashier, and X != Y, then INCONSISTENT
+:- cashier(X),cashier(Y),X!=Y.
+:- manager(X),manager(Y),X!=Y.
+:- teller(X),teller(Y),X!=Y.
+
+% The teller, who was an only child, earns the least.
+% Let’s make an “earnsmore(X,Y)” predicate “X earns more than Y”.
+% "earnsmore" is transitive.
+earnsmore(X,Z) :- earnsmore(X,Y), earnsmore(Y,Z).
+% "earnsmore" is non-symmetric (encoded as a constraint)
+:- earnsmore(X,Y),earnsmore(Y,X), X!=Y.
+% "earnsmore" is non-reflexive. (encoded as a constraint)
+:- earnsmore(X,X).
+
+% every person who is not the teller earns more than the teller.
+% If Y is a person, and X is the Teller, and Y is not same person as X,
+% then Person Y earns more than Teller X. 
+earnsmore(Y,X) :- teller(X), person(Y), X!=Y.
+
+%Smith, who married Brown's sister, earns more than the manager.
+earnsmore(smith, X) :- person(smith), manager(X).
+
+% A person could have a sibling or be an only child
+% Let's make a "hasSibling" predicate "X has a sibling"
+% Brown has a sister.
+hasSibling(brown).
+
+% The teller is an only child
+~hasSibling(X) :- teller(X).
+

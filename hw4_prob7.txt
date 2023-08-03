@@ -1,0 +1,9 @@
+%h means that Homer is a truth teller
+%b means that Bozo is a truth teller
+h v ~h.
+b v ~b.
+h v b :- h.
+~h :- ~h.
+~b :- ~h.
+~h :- ~b.
+~h :- b.

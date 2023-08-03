@@ -1,0 +1,28 @@
+%a means that Ames will serve
+%b means that Brown will serve
+%c means that Clayton will serve
+%d means that Davis will serve
+%e means that Evans will serve
+%f means that French will serve
+%g means that Grant will serve
+%h means that Hughes will serve
+a v ~a.
+b v ~b.
+c v ~c.
+d v ~d.
+e v ~e.
+f v ~f.
+g v ~g.
+h v ~h.
+c:-b.
+~e:-c.
+h:-d.
+g:-f,d.
+d:-f,c.
+~b:-g.
+~c:-g.
+~a v ~e :- g.
+b v f :- h.
+g:-h,c.
+~a:-h.
+~e:-h.

@@ -1,0 +1,43 @@
+% Create an "OK(X)" predicate in which "X is a gate that functions property (is OK)"
+% All gates are functioning properly (are on)
+OK(orgate).
+OK(notgate).
+OK(andgate).
+
+% Create an "ON(W)" predicate in which "W is a wire that is on"
+% Wire w1, w2, w3 are On
+On(w1).
+On(w2).
+On(w3).
+On(w4) v ~On(w4).
+On(w5) v ~On(w5).
+On(w6) v ~On(w6).
+
+% If w3 is ON and the notgate is OK, then w5 is not ON
+~On(w5) :- On(w3), OK(notgate).
+
+
+% If w1 is ON and the orgate is OK, then w4 is ON
+On(w4) :- On(w1), OK(orgate).
+
+% If w2 is ON and the orgate is OK, then w4 is ON
+On(w4) :- On(w2), OK(orgate).
+
+% If w1 is ON and w2 is ON and the orgate is OK, then w4 is ON
+On(w4) :- On(w1), On(w2), OK(orgate).
+
+% If w1 is not ON and w2 is not ON and the orgate is OK, then w4 is not ON
+~On(w4) :- ~On(w1), ~On(w2), OK(orgate).
+
+% If w4 is ON and w5 is ON, then w6 is ON
+On(w6) :- On(w4), On(w5), OK(andgate).
+
+% If w4 is not On and the andgate is OK, then w6 is not On
+~On(w6) :- ~On(w4), OK(andgate).
+
+% If w5 is not On and the andgate is OK, then w6 is not On
+~On(w6) :- ~On(w5), OK(andgate).
+
+% If w4 is not On and w5 is not On and the andgate is OK, then w6 is not On
+~On(w6) :- ~On(w4), ~On(w5), OK(andgate).
+

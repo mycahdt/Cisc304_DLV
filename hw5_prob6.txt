@@ -1,0 +1,47 @@
+%a means that Our cards are both purple is true
+%m means that Dum is a liar
+%e means that Dee is a liar
+%mo means that Dum has orange
+%mp means that Dum has purple
+%eo means that Dee has orange
+%ep means that Dee has purple
+%z means that Dum is speaker 1
+%y means that Dee is speaker 1
+:- m,~m.
+:- e,~e.
+~a.
+:- ep,~ep.
+:- mp,~mp.
+~ep v ~mp :- ~a.
+mo :- ~a.
+~m :- ~a.
+ep :- ~a.
+~e :- ~a.
+:-y,~y.
+:- z,~z.
+:- z,y.
+~m :- a.
+~m :- z.
+mp :- a,z,~m.
+ep :- a,z,~m.
+e :- a,z,~m.
+~m :- a,z,~m.
+m :- ~a,z.
+~m :- ~a,z,m,mp.
+ep :- ~a,z,m,ep.
+~e :- ~a,z,m,ep.
+mp :- ~a,z,m,ep.
+e :- ~a,z,m,mo,eo.
+~e :- a,y.
+mp :- a,y,~e.
+ep :- a,y,~e.
+e :- a,y,~e.
+e :- ~a,y.
+~e :- ~a,y,e,ep.
+mo :- ~a,y,e,ep.
+~m :- ~a,y,e,ep.
+~m :- ~a,y,e,mp.
+eo :- ~a,y,e,mp.
+~e :- ~a,y,e,mp.
+~e :- ~a,y,mo,eo.
+~m :- ~a,y,mo,eo.

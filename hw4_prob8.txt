@@ -1,0 +1,19 @@
+%z means that Zed is a truth teller
+%m means that Marge is a truth teller
+%b means that Bob is a truth teller
+z v ~z.
+m v ~m.
+b v ~b.
+~m v z :- z.
+mz v b :- mz.
+mz v ~mz :- b.
+m :- mz.
+z :- mz.
+~m :- ~mz.
+~z :- ~mz.
+b :- m.
+z :- m.
+m :- ~z.
+~z :- ~z.
+b :- ~m.
+~z :- ~m.
